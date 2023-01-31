@@ -16,6 +16,11 @@ const fetchEmployeesByFirstname = () => {
     .then(res => res.json());
 }
 
+const fetchEmployeesByMiddlename = () => {
+  return fetch("/api/employees/middlename", {})
+    .then(res => res.json())
+}
+
 const fetchEmployeesByPosition = (query) => {
   return fetch(`/api/employees/position/search?search=${query}`, {})
     .then(res => res.json());
@@ -77,6 +82,13 @@ const EmployeeList = () => {
         setData(data)
       })
   }
+
+  const sortByMiddlename = () => {
+    fetchEmployeesByMiddlename()
+      .then(data => {
+        setData(data)
+      })
+  }
   
   useEffect(() => {
     const controller = new AbortController();
@@ -107,6 +119,7 @@ const EmployeeList = () => {
           sortLevel={sortLevel}
           sortPosition={sortPosition}
           sortByFirstName={sortByFirstName}
+          sortByMiddlename={sortByMiddlename}
         />;
 };
 
