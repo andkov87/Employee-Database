@@ -53,6 +53,53 @@ app.get("/api/employees/position/search", async (req, res) => {
   return res.json(sortedEmployees);
 })
 
+app.get("/api/employees/firstname", async (req, res) => {
+  const sortedEmployees = await EmployeeModel.aggregate([
+    {
+      $addFields: {
+        firstName: {
+          $arrayElemAt: [{ $split: ["$name", " "]}, 0]
+        },
+      }
+    },
+    {
+      $sort: {
+        firstName: 1
+      }
+    },
+    {
+        $replaceRoot: {newRoot: "$$ROOT"}
+    }
+  ])
+  return res.json(sortedEmployees);
+})
+
+app.get("/api/employees/middlename", async (req, res) => {
+  const sortedEmployees = await EmployeeModel.aggregate([
+    {
+      $addFields: {
+        middlename: {
+          $cond: {
+            if: {$eq: [{$size: [{ $split: ["$name", " "]}]}, 2]},
+            then: { $arrayElemAt: [{$split: ["$name", " "]}, 1]},
+            else: null
+          }
+        }
+      }
+    },
+    {
+      $sort: {
+        middlename: 1
+      }
+    },
+    {
+      $replaceRoot: { newRoot: "$$ROOT"}
+    }
+  ])
+
+  return res.json(sortedEmployees)
+})
+
 app.get("/roberts", async (req, res) => {
   const foundRoberts = await EmployeeModel.find({ name: { $regex: 'Robert'}})
   return res.json(foundRoberts)

@@ -11,6 +11,11 @@ const fetchEmployeesByLevel = (query) => {
     .then(res => res.json())
 };
 
+const fetchEmployeesByFirstname = () => {
+  return fetch("/api/employees/firstname", {})
+    .then(res => res.json());
+}
+
 const fetchEmployeesByPosition = (query) => {
   return fetch(`/api/employees/position/search?search=${query}`, {})
     .then(res => res.json());
@@ -65,6 +70,13 @@ const EmployeeList = () => {
         throw err;
       })
   }
+
+  const sortByFirstName = () => {
+    fetchEmployeesByFirstname()
+      .then(data => {
+        setData(data)
+      })
+  }
   
   useEffect(() => {
     const controller = new AbortController();
@@ -94,6 +106,7 @@ const EmployeeList = () => {
           onDelete={handleDelete} 
           sortLevel={sortLevel}
           sortPosition={sortPosition}
+          sortByFirstName={sortByFirstName}
         />;
 };
 
