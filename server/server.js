@@ -39,9 +39,23 @@ app.get("/api/employees", async (req, res) => {
   return res.json(employees);
 });
 
-app.get("/robert", async (req, res) => {
-  const roberts = await EmployeeModel.find({name: {$regex: 'Robert'}});
-  return res.json(roberts);
+app.get("/api/employees/level/search", async (req, res) => {
+  const query = req.query.search;
+
+  const sortedEmployees = await EmployeeModel.find({ level: {$regex: `^${query}`, $options: "i"}})
+  return res.json(sortedEmployees);
+})
+
+app.get("/api/employees/position/search", async (req, res) => {
+  const query = req.query.search;
+
+  const sortedEmployees = await EmployeeModel.find({ position: { $regex: `^${query}`, $options: "i"}})
+  return res.json(sortedEmployees);
+})
+
+app.get("/roberts", async (req, res) => {
+  const foundRoberts = await EmployeeModel.find({ name: { $regex: 'Robert'}})
+  return res.json(foundRoberts)
 })
 
 app.get("/api/employees/:id", async (req, res) => {

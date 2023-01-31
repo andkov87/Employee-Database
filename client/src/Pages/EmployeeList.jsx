@@ -6,6 +6,16 @@ const fetchEmployees = (signal) => {
   return fetch("/api/employees", { signal }).then((res) => res.json());
 };
 
+const fetchEmployeesByLevel = (query) => {
+  return fetch(`/api/employees/level/search?search=${query}`, {})
+    .then(res => res.json())
+};
+
+const fetchEmployeesByPosition = (query) => {
+  return fetch(`/api/employees/position/search?search=${query}`, {})
+    .then(res => res.json());
+}
+
 const deleteEmployee = (id) => {
   return fetch(`/api/employees/${id}`, { method: "DELETE" }).then((res) =>
     res.json()
@@ -36,6 +46,25 @@ const EmployeeList = () => {
     });
   };
 
+  const sortLevel = (e) => {
+    fetchEmployeesByLevel(e.target.value)
+      .then((data) => {
+        setData(data)
+      })
+      .catch((err) => {
+        throw err;
+      })
+  }
+
+  const sortPosition = (e) => {
+    fetchEmployeesByPosition(e.target.value)
+      .then(data => {
+        setData(data);
+      })
+      .catch(err => {
+        throw err;
+      })
+  }
   
   useEffect(() => {
     const controller = new AbortController();
@@ -59,7 +88,13 @@ const EmployeeList = () => {
     return <Loading />;
   }
 
-  return <EmployeeTable employees={data} updateEmployee={updateEmployee} onDelete={handleDelete} />;
+  return <EmployeeTable  
+          employees={data} 
+          updateEmployee={updateEmployee} 
+          onDelete={handleDelete} 
+          sortLevel={sortLevel}
+          sortPosition={sortPosition}
+        />;
 };
 
 export default EmployeeList;
