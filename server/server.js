@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const EmployeeModel = require("./db/employee.model");
 const cors = require('cors');
+const EquipmentRouter = require('./routes/EquipmentRouter');
 
 const { MONGO_URL, PORT = 8080 } = process.env;
 
@@ -15,6 +16,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use("/equipment", EquipmentRouter)
 
 app.patch("/api/equipment/:id", async (req, res, next) => {
   const equipment = req.body;
