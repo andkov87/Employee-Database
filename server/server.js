@@ -98,6 +98,28 @@ app.get("/api/employees/middlename", async (req, res) => {
   ])
 
   return res.json(sortedEmployees)
+});
+
+app.get("/api/employees/lastname", async (req, res) => {
+  const sortedEmployees = await EmployeeModel.aggregate([
+    {
+      $addFields: {
+        lastname: {
+          $arrayElemAt: [{$split: ["$name", " "]}, -1]
+        }
+      }
+    },
+    {
+      $sort: {
+        lastname: 1
+      }
+    },
+    {
+      $replaceRoot: {newRoot: "$$ROOT"}
+    }
+  ])
+
+  return res.json(sortedEmployees);
 })
 
 app.get("/roberts", async (req, res) => {

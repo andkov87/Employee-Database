@@ -14,10 +14,15 @@ const fetchEmployeesByLevel = (query) => {
 const fetchEmployeesByFirstname = () => {
   return fetch("/api/employees/firstname", {})
     .then(res => res.json());
-}
+};
 
 const fetchEmployeesByMiddlename = () => {
   return fetch("/api/employees/middlename", {})
+    .then(res => res.json())
+};
+
+const fetchEmployeesByLastname = () => {
+  return fetch("/api/employees/lastname", {})
     .then(res => res.json())
 }
 
@@ -81,10 +86,17 @@ const EmployeeList = () => {
       .then(data => {
         setData(data)
       })
-  }
+  };
 
   const sortByMiddlename = () => {
     fetchEmployeesByMiddlename()
+      .then(data => {
+        setData(data)
+      })
+  };
+
+  const sortByLastname = () => {
+    fetchEmployeesByLastname()
       .then(data => {
         setData(data)
       })
@@ -120,6 +132,7 @@ const EmployeeList = () => {
           sortPosition={sortPosition}
           sortByFirstName={sortByFirstName}
           sortByMiddlename={sortByMiddlename}
+          sortByLastname={sortByLastname}
         />;
 };
 

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./EmployeeTable.css";
 
-const EmployeeTable = ({ employees,sortByFirstName, sortByMiddlename, sortPosition, sortLevel, onDelete  }) => (
+const EmployeeTable = ({ employees, sortByFirstName, sortByLastname, sortByMiddlename, sortPosition, sortLevel, onDelete  }) => (
   <div className="EmployeeTable">
     <table>
       <thead>
@@ -9,6 +9,7 @@ const EmployeeTable = ({ employees,sortByFirstName, sortByMiddlename, sortPositi
           <th>Name
             <button onClick={sortByFirstName}>Sort By Firstname</button>
             <button onClick={sortByMiddlename}>Sort By Middlename</button>
+            <button onClick={sortByLastname}>Sort By Lastname</button>
           </th>
           <th>Level <input onChange={e => sortLevel(e)}></input></th>
           <th>Position <input onChange={e => sortPosition(e)}></input></th>
