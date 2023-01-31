@@ -25,7 +25,6 @@ const updateEmployee = (employee) => {
 const EmployeeList = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
-  const [check, setCheck] = useState(null)
 
   const handleDelete = (id) => {
     deleteEmployee(id).catch((err) => {
@@ -60,7 +59,7 @@ const EmployeeList = () => {
     return <Loading />;
   }
 
-  return <EmployeeTable employees={data} onDelete={handleDelete} />;
+  return <EmployeeTable employees={data} updateEmployee={updateEmployee} onDelete={handleDelete} />;
 };
 
 export default EmployeeList;
